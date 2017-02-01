@@ -84,10 +84,6 @@ class KivaQuery(object):
             raise KivaQueryException(400, url)
         return res[list_name]
 
-    def get(self, url):
-        self._reset_if_new(url)
-        return self._query(url)
-
     def get_next_batch(self, url, size, list_name):
         self._reset_if_new(url)
         while len(self.items) < size:
