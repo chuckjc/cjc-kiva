@@ -28,7 +28,6 @@ class KivaQuery(object):
         self.remaining = 0
 
     def _reset_if_new(self, url):
-        self.url = url
         if not url or url != self.url:
             self.paged_url = None
             self.next_page = 1
@@ -37,6 +36,7 @@ class KivaQuery(object):
             self.items = []
             self.total_items_delivered = 0
             self.last_page = 0
+        self.url = url
 
     def _limit_rate(self, headers):
         remaining = float(headers['X-RateLimit-Overall-Remaining'])

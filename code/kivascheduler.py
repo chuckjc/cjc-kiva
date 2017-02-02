@@ -50,7 +50,7 @@ class KivaScheduler(object):
         self.disbursal_date = self.loan['terms']['disbursal_date']
         # only use lender_id from api, but need dict for hack loan_amount
         self.lenders = {l['lender_id']: {'lender_id':l['lender_id']}
-                        for l in lenders}
+                        for l in lenders if 'lender_id' in l}
         self._read_loan_schedule_db(session)
         self._create_loan_schedule(session)
         session.commit()
@@ -78,7 +78,7 @@ class KivaScheduler(object):
             'lender_id': lender_sched.lender_id,
             'payment_amount': lender_sched.payment_amount,
             'last_payment_amount': lender_sched.last_payment_amount,
-            'loan_amount': self.lenders[lender_sched.lender_id]['loan_amount']
+            'loan_amount': lender_sched.loan_amount,
         }
         return lender_dict
 
@@ -159,3 +159,4 @@ class KivaScheduler(object):
             lender['loan_amount'], self.num_payments)
         lender_sched.payment_amount = payment
         lender_sched.last_payment_amount = last_payment
+        lender_sched.loan_amount = lender['loan_amount']

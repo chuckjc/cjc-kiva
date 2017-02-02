@@ -17,6 +17,7 @@ class LenderRepaymentSchedule(Base):
     lender_id = sa.Column(sa.String(40))
     payment_amount = sa.Column(sa.Numeric(precision=12, scale=2))
     last_payment_amount = sa.Column(sa.Numeric(precision=12, scale=2))
+    loan_amount = sa.Column(sa.Numeric(precision=12, scale=2))
 
 
 class LoanRepaymentSchedule(Base):
@@ -35,6 +36,7 @@ class LoanRepaymentSchedule(Base):
 
 
 '''
+TBD: play with repayment simulations
 class LoanRepayment(Base):
 
     __tablename__ = 'LoanRepayments'
