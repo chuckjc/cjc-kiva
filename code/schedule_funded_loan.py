@@ -46,9 +46,6 @@ for sched in loan_schedules:
               str(sched['last_payment_amount']), ', %d lenders' %
               loan['lender_count'])
         for lender in lenders:
-            if 'lender_id' not in lender:
-                anonymous += 1
-                continue
             for lnd_sched in sched['lender_schedules']:
                 if lnd_sched['lender_id'] == lender['lender_id']:
                     break
@@ -60,4 +57,3 @@ for sched in loan_schedules:
                     name, str(lnd_sched['loan_amount']),
                     str(lnd_sched['payment_amount']),
                     str(lnd_sched['last_payment_amount'])))
-        print('  %d anonymous lenders' % anonymous)

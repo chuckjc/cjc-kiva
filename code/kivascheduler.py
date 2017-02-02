@@ -48,9 +48,15 @@ class KivaScheduler(object):
             self.loan['terms']['loan_amount']).quantize(PRECISION)
         self.num_payments = self.loan['terms']['repayment_term']
         self.disbursal_date = self.loan['terms']['disbursal_date']
+        # give anonymous lenders fake ids
+        anum = 1
+        for lender in lenders:
+            if 'lender_id' not in lender:
+                lender['lender_id'] = 'anonymous' + str(anum)
+                anum += 1
         # only use lender_id from api, but need dict for hack loan_amount
         self.lenders = {l['lender_id']: {'lender_id':l['lender_id']}
-                        for l in lenders if 'lender_id' in l}
+                        for l in lenders}
         self._read_loan_schedule_db(session)
         self._create_loan_schedule(session)
         session.commit()
@@ -147,7 +153,7 @@ class KivaScheduler(object):
     def _calculate_borrower_schedule(self):
         payment, last_payment = calculate_distribution(
             self.loan_amount, self.num_payments, roundup=True)
-        print('calc_borrower: ', payment, last_payment)
+        self.loan_schedule.loan_amount = self.loan_amount
         self.loan_schedule.payment_amount = payment
         self.loan_schedule.last_payment_amount = last_payment
         self.loan_schedule.first_payment_date = add_a_month_utc(
