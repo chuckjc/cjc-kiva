@@ -5,7 +5,12 @@ This code requires python3 and has been tested on ubuntu 14.04, not in a virtual
 
 Requirements:
 
-    apt-get install mysql-server
+    apt-get install mysql-server  # set root password
+    cat > ~/.my.cnf <EOF
+    [client]
+    user=root
+    password=root
+    EOF
     pip3 install pymysql
     pip3 install requests
     pip3 install sqlalchemy
